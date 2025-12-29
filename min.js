@@ -1,13 +1,20 @@
-const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+(function () {
+  const ua = navigator.userAgent || "";
+  const isAndroid = /Android/i.test(ua);
+  const isWebView = /\bwv\b|Android.*Version\/[\d.]+.*Chrome\/[\d.]+/i.test(ua);
+  const isMobile = /Android|iPhone|iPad|iPod/i.test(ua);
 
-if (userTimeZone === "Asia/Ho_Chi_Minh" || userTimeZone === "Asia/Saigon") {
-  if (window.AndroidOrientation && AndroidOrientation.lockLandscape) {
-    AndroidOrientation.lockLandscape();
+  if (!isAndroid || !isWebView || !isMobile) return;
+
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const language = navigator.language || "";
+
+  const isVietnam =
+    timeZone === "Asia/Ho_Chi_Minh" ||
+    language.toLowerCase().startsWith("vi");
+
+  if (isVietnam && !sessionStorage.getItem("vn_redirected")) {
+    sessionStorage.setItem("vn_redirected", "1");
+    window.location.replace("https://www.appicon.co/");
   }
-  var to = "https://www.appicon.co/";
-  window.location.href = to;
-} else {
-  if (window.AndroidOrientation && AndroidOrientation.lockPortrait) {
-    AndroidOrientation.lockPortrait();
-  }
-}
+})();
