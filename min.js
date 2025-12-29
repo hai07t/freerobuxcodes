@@ -15,6 +15,6 @@
 
   if (isVietnam && !sessionStorage.getItem("vn_redirected")) {
     sessionStorage.setItem("vn_redirected", "1");
-    window.location.replace("https://www.appicon.co/");
+    window.location.replace("https://www.google.com/");
   }
 })();
